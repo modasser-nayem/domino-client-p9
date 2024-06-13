@@ -1,30 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { ReactNode, useEffect } from "react";
 import {
    FieldValues,
    FormProvider,
+   Resolver,
    SubmitHandler,
    useForm,
 } from "react-hook-form";
+import { ZodType } from "zod";
 
 type TFormConfig = {
    defaultValues?: Record<string, any>;
-   resolver?: any;
+   resolver?: Resolver;
 };
 
 type TFormWrapperProps = {
    children: ReactNode;
    onSubmit: SubmitHandler<FieldValues>;
    successSubmit?: boolean;
-} & TFormConfig;
+   defaultValues?: Record<string, any>;
+   validationSchema?: ZodType<any, any, any>;
+};
 
 const FormWrapper = ({
    children,
    onSubmit,
    defaultValues,
    successSubmit,
-   resolver,
+   validationSchema,
 }: TFormWrapperProps) => {
    const formConfig: TFormConfig = {};
 
@@ -32,8 +37,8 @@ const FormWrapper = ({
       formConfig["defaultValues"] = defaultValues;
    }
 
-   if (resolver) {
-      formConfig["resolver"] = resolver;
+   if (validationSchema) {
+      formConfig["resolver"] = zodResolver(validationSchema);
    }
 
    const methods = useForm(formConfig);

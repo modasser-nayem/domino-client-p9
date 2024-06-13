@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import InputItem from "../../components/form/InputItem";
 import { Link } from "react-router-dom";
 import authSchemaValidation from "../../validation/auth.validation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 const SignIn = () => {
    const onSubmit: SubmitHandler<FieldValues> = (formValues) => {
@@ -38,7 +38,7 @@ const SignIn = () => {
             </Typography>
             <FormWrapper
                onSubmit={onSubmit}
-               resolver={zodResolver(authSchemaValidation.signIn)}
+               validationSchema={authSchemaValidation.signIn}
             >
                <Grid
                   container
@@ -67,23 +67,7 @@ const SignIn = () => {
                      />
                   </Grid>
                </Grid>
-               <Typography
-                  fontWeight={500}
-                  textAlign="right"
-                  color="primary.main"
-                  pt={2}
-                  pb={3}
-               >
-                  <Link
-                     to="/forgot-password"
-                     style={{
-                        textDecoration: "none",
-                        color: "inherit",
-                     }}
-                  >
-                     Forgot Password
-                  </Link>
-               </Typography>
+               <ForgotPassword />
                <Button
                   type="submit"
                   size="large"

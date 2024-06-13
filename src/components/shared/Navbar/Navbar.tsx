@@ -15,30 +15,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import dominoLogo from "../../../assets/domino_logo.png";
-
-const navLinks = [
-   {
-      path: "#about",
-      name: "About",
-   },
-   {
-      path: "#contact",
-      name: "Contact",
-   },
-   {
-      path: "#blog",
-      name: "Blog",
-   },
-   {
-      path: "#dashboard",
-      name: "Dashboard",
-   },
-];
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -83,6 +64,34 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+   const role = "instructor";
+
+   const navLinks = [
+      {
+         path: "/",
+         name: "Home",
+      },
+      {
+         path: "#about",
+         name: "About",
+      },
+      {
+         path: "#contact",
+         name: "Contact",
+      },
+      {
+         path: "#blog",
+         name: "Blog",
+      },
+   ];
+
+   if (role) {
+      navLinks.push({
+         path: `/${role}`,
+         name: "Dashboard",
+      });
+   }
+
    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
       null
    );
@@ -270,7 +279,7 @@ const Navbar = () => {
                   onClick={() => setIsOpenNav(!isOpenNav)}
                   sx={{ display: { xs: "block", md: "none" } }}
                >
-                  <MenuIcon />
+                  {isOpenNav ? <CloseIcon /> : <MenuIcon />}
                </IconButton>
 
                {isOpenNav && (

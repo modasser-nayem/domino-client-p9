@@ -4,7 +4,6 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import InputItem from "../../components/form/InputItem";
 import { Link } from "react-router-dom";
 import authSchemaValidation from "../../validation/auth.validation";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const SignUp = () => {
    const onSubmit: SubmitHandler<FieldValues> = (formValues) => {
@@ -38,7 +37,7 @@ const SignUp = () => {
             </Typography>
             <FormWrapper
                onSubmit={onSubmit}
-               resolver={zodResolver(authSchemaValidation.signUp)}
+               validationSchema={authSchemaValidation.signUp}
             >
                <Grid
                   container

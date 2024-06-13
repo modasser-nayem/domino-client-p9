@@ -9,7 +9,13 @@ const initialState: TAuthSlice = {
 const authSlice = createSlice({
    name: "auth",
    initialState,
-   reducers: {},
+   reducers: {
+      logOutUser: (state) => {
+         state.token = null;
+         state.user = null;
+      },
+   },
 });
 
+export const { logOutUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;

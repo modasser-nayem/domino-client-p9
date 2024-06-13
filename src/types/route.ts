@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 export type TRouteItem = {
    name?: string;
+   index?: boolean;
    path?: string;
    icon?: ReactNode;
    element?: ReactNode;
@@ -9,6 +10,7 @@ export type TRouteItem = {
 };
 
 export type TDomRoute = {
-   path: string;
+   path?: string;
+   index?: boolean;
    element: ReactNode;
 };

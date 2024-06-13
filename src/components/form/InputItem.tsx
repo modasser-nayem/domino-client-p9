@@ -43,6 +43,7 @@ const InputItem = ({
                         display="flex"
                         alignItems="center"
                         gap={1}
+                        component="span"
                      >
                         <ErrorIcon sx={{ fontSize: 16 }} /> {error?.message}
                      </Typography>
