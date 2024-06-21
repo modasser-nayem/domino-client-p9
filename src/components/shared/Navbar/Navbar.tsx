@@ -20,8 +20,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import dominoLogo from "../../../assets/domino_logo.png";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { logOutUser } from "../../../redux/features/auth/authSlice";
 
 const Search = styled("div")(({ theme }) => ({
    position: "relative",
@@ -64,7 +64,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-   const role = "instructor";
+   const user = useAppSelector((state) => state.auth.user);
+   const dispatch = useAppDispatch();
+
+   const settings = [{ name: "Profile", path: "/profile" }];
 
    const navLinks = [
       {
@@ -85,11 +88,12 @@ const Navbar = () => {
       },
    ];
 
-   if (role) {
+   if (user?.role) {
       navLinks.push({
-         path: `/${role}`,
+         path: `/${user.role}`,
          name: "Dashboard",
       });
+      settings.push({ name: "Dashboard", path: `/${user.role}` });
    }
 
    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -108,6 +112,11 @@ const Navbar = () => {
 
    const handleCloseNavMenu = () => {
       setIsOpenNav(false);
+   };
+
+   const handleLogoutUser = () => {
+      dispatch(logOutUser());
+      handleCloseUserMenu();
    };
 
    return (
@@ -216,7 +225,7 @@ const Navbar = () => {
                      ))}
                   </Stack>
                   <Stack>
-                     {navLinks ? (
+                     {!user ? (
                         <Stack
                            direction="row"
                            alignItems="center"
@@ -258,16 +267,31 @@ const Navbar = () => {
                               open={Boolean(anchorElUser)}
                               onClose={handleCloseUserMenu}
                            >
-                              {settings.map((setting) => (
+                              {settings.map((setting, i) => (
                                  <MenuItem
-                                    key={setting}
+                                    key={i}
                                     onClick={handleCloseUserMenu}
                                  >
-                                    <Typography textAlign="center">
-                                       {setting}
-                                    </Typography>
+                                    <Link
+                                       style={{
+                                          textAlign: "center",
+                                          textDecoration: "none",
+                                          color: "inherit",
+                                       }}
+                                       to={setting.path}
+                                    >
+                                       {setting.name}
+                                    </Link>
                                  </MenuItem>
                               ))}
+                              <MenuItem onClick={handleLogoutUser}>
+                                 <Typography
+                                    color="red"
+                                    textAlign="center"
+                                 >
+                                    Logout
+                                 </Typography>
+                              </MenuItem>
                            </Menu>
                         </Box>
                      )}
@@ -326,7 +350,7 @@ const Navbar = () => {
                         ))}
                      </Stack>
                      <Stack>
-                        {!navLinks.length ? (
+                        {!user ? (
                            <Stack
                               direction="row"
                               alignItems="center"
@@ -368,19 +392,31 @@ const Navbar = () => {
                                  open={Boolean(anchorElUser)}
                                  onClose={handleCloseUserMenu}
                               >
-                                 {settings.map((setting) => (
+                                 {settings.map((setting, i) => (
                                     <MenuItem
-                                       key={setting}
+                                       key={i}
                                        onClick={handleCloseUserMenu}
                                     >
-                                       <Typography
-                                          textAlign="center"
-                                          color="primary"
+                                       <Link
+                                          style={{
+                                             textAlign: "center",
+                                             textDecoration: "none",
+                                             color: "inherit",
+                                          }}
+                                          to={setting.path}
                                        >
-                                          {setting}
-                                       </Typography>
+                                          {setting.name}
+                                       </Link>
                                     </MenuItem>
                                  ))}
+                                 <MenuItem onClick={handleLogoutUser}>
+                                    <Typography
+                                       color="red"
+                                       textAlign="center"
+                                    >
+                                       Logout
+                                    </Typography>
+                                 </MenuItem>
                               </Menu>
                            </Box>
                         )}

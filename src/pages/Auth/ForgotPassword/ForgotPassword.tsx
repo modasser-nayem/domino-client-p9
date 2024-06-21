@@ -2,11 +2,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { toast } from "sonner";
+import { useForgotPasswordMutation } from "../../../redux/api/authApi";
+import { isRtqQueryError } from "../../../redux/api/baseApi";
 
 const ForgotPassword = () => {
    const [open, setOpen] = useState(false);
+   const [emailError, setEmailError] = useState("");
+
+   const [forgotPassword, { data, error, isLoading }] =
+      useForgotPasswordMutation();
 
    const handleClickOpen = () => {
       setOpen(true);
@@ -21,10 +28,31 @@ const ForgotPassword = () => {
       event.stopPropagation();
       const formData = new FormData(event.currentTarget);
       const formJson = Object.fromEntries(formData.entries());
-      const email = formJson.email;
-      console.log(email);
-      handleClose();
+      const email = formJson.email as string;
+
+      try {
+         if (!email) {
+            setEmailError("Email is required");
+         } else {
+            forgotPassword({ email: email });
+         }
+      } catch (error) {
+         toast.error("Something went wrong! try again");
+      }
    };
+
+   useEffect(() => {
+      console.log({ data, error });
+
+      if (data) {
+         toast.success(data.message);
+         handleClose();
+      }
+
+      if (isRtqQueryError(error)) {
+         toast.error(error.data.message);
+      }
+   }, [data, error]);
 
    return (
       <Box>
@@ -55,7 +83,6 @@ const ForgotPassword = () => {
             <DialogContent>
                <TextField
                   autoFocus
-                  required
                   margin="dense"
                   id="name"
                   name="email"
@@ -63,6 +90,8 @@ const ForgotPassword = () => {
                   type="email"
                   fullWidth
                   variant="standard"
+                  error={emailError ? true : false}
+                  helperText={emailError}
                />
             </DialogContent>
             <DialogActions>
@@ -72,7 +101,12 @@ const ForgotPassword = () => {
                >
                   Cancel
                </Button>
-               <Button type="submit">Submit</Button>
+               <Button
+                  disabled={isLoading}
+                  type="submit"
+               >
+                  Submit
+               </Button>
             </DialogActions>
          </Dialog>
       </Box>

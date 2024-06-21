@@ -1,14 +1,45 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import FormWrapper from "../../components/form/FormWrapper";
+import FormWrapper from "../../../components/form/FormWrapper";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import InputItem from "../../components/form/InputItem";
-import { Link } from "react-router-dom";
-import authSchemaValidation from "../../validation/auth.validation";
+import InputItem from "../../../components/form/InputItem";
+import { Link, useNavigate } from "react-router-dom";
+import authSchemaValidation from "../../../validation/auth.validation";
+import { useRegisterUserMutation } from "../../../redux/api/authApi";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { isRtqQueryError } from "../../../redux/api/baseApi";
 
 const SignUp = () => {
-   const onSubmit: SubmitHandler<FieldValues> = (formValues) => {
-      console.log(formValues);
+   const navigate = useNavigate();
+   const [registerUser, { data, error, isLoading }] = useRegisterUserMutation();
+
+   const onSubmit: SubmitHandler<FieldValues> = (formData) => {
+      try {
+         const modifyData = {
+            name: formData.name,
+            email: formData.email,
+            contactNo: formData.contactNo,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+         };
+
+         registerUser(modifyData);
+      } catch (error) {
+         toast.error("Something went wrong! try again");
+      }
    };
+
+   useEffect(() => {
+      console.log({ data, error });
+      if (data) {
+         toast.success(data.message);
+         navigate("/sign-in");
+      }
+
+      if (error && isRtqQueryError(error)) {
+         toast.error(error.data.message);
+      }
+   }, [data, error, navigate]);
 
    return (
       <Container
@@ -38,6 +69,7 @@ const SignUp = () => {
             <FormWrapper
                onSubmit={onSubmit}
                validationSchema={authSchemaValidation.signUp}
+               successSubmit={data?.success}
             >
                <Grid
                   container
@@ -104,6 +136,7 @@ const SignUp = () => {
                   </Grid>
                </Grid>
                <Button
+                  disabled={isLoading}
                   type="submit"
                   size="large"
                   fullWidth

@@ -5,10 +5,18 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "../redux/store";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../lib/theme/theme";
+import { Toaster } from "sonner";
 
 const Providers = () => {
    return (
       <ThemeProvider theme={theme}>
+         <Toaster
+            position="top-center"
+            closeButton
+            richColors
+            visibleToasts={1}
+            duration={1000}
+         />
          <Provider store={store}>
             <PersistGate
                loading={null}

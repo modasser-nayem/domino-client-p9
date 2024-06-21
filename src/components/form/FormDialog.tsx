@@ -2,7 +2,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Box, Button, IconButton, SxProps, Typography } from "@mui/material";
 import FormWrapper from "./FormWrapper";
 import { FieldValues, SubmitHandler } from "react-hook-form";
@@ -11,9 +11,11 @@ import { Theme } from "@emotion/react";
 import { ZodType } from "zod";
 
 type TFormDialogProps = {
+   openTitle: string;
    children: ReactNode;
    titleText: string;
    submitBtnText?: string;
+   submitBtnLoading?: boolean;
    titleSx?: SxProps<Theme>;
    onSubmit: SubmitHandler<FieldValues>;
    successSubmit?: boolean;
@@ -24,10 +26,12 @@ type TFormDialogProps = {
 };
 
 const FormDialog = ({
+   openTitle,
    children,
    titleText,
    titleSx,
    submitBtnText,
+   submitBtnLoading,
    onSubmit,
    successSubmit,
    defaultValues,
@@ -54,6 +58,12 @@ const FormDialog = ({
       onSubmit(data);
    };
 
+   useEffect(() => {
+      if (successSubmit) {
+         handleClose();
+      }
+   }, [successSubmit]);
+
    return (
       <Box>
          <Typography
@@ -65,7 +75,7 @@ const FormDialog = ({
             pb={3}
             sx={{ cursor: "pointer" }}
          >
-            Open Form
+            {openTitle}
          </Typography>
          <Dialog
             open={open}
@@ -98,6 +108,7 @@ const FormDialog = ({
                         <CloseIcon sx={{ fontSize: 30 }} />
                      </IconButton>
                      <Button
+                        disabled={submitBtnLoading}
                         fullWidth
                         type="submit"
                         size="large"

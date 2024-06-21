@@ -38,5 +38,52 @@ const signIn = z.object({
       .refine((value) => value !== "", { message: "password is required" }),
 });
 
-const authSchemaValidation = { signUp, signIn };
+const changePassword = z
+   .object({
+      currentPassword: z
+         .string({ required_error: "currentPassword is required" })
+         .refine((value) => value !== "", {
+            message: "Current password is required",
+         }),
+      newPassword: z
+         .string({ required_error: "newPassword is required" })
+         .refine((value) => value !== "", {
+            message: "New password is required",
+         })
+         .refine((value) => value.length >= 6, {
+            message: "New password must be more then 5 character",
+         }),
+      confirmPassword: z
+         .string({ required_error: "confirmPassword is required" })
+         .refine((value) => value !== "", {
+            message: "Confirm Password is required",
+         }),
+   })
+   .refine((data) => data.newPassword === data.confirmPassword, {
+      message: "Passwords don't match",
+      path: ["confirmPassword"],
+   });
+
+const resetPassword = z
+   .object({
+      newPassword: z
+         .string({ required_error: "newPassword is required" })
+         .refine((value) => value !== "", {
+            message: "New password is required",
+         })
+         .refine((value) => value.length >= 6, {
+            message: "New password must be more then 5 character",
+         }),
+      confirmPassword: z
+         .string({ required_error: "confirmPassword is required" })
+         .refine((value) => value !== "", {
+            message: "Confirm Password is required",
+         }),
+   })
+   .refine((data) => data.newPassword === data.confirmPassword, {
+      message: "Passwords don't match",
+      path: ["confirmPassword"],
+   });
+
+const authSchemaValidation = { signUp, signIn, changePassword, resetPassword };
 export default authSchemaValidation;

@@ -1,15 +1,53 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import FormWrapper from "../../components/form/FormWrapper";
+import FormWrapper from "../../../components/form/FormWrapper";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import InputItem from "../../components/form/InputItem";
-import { Link } from "react-router-dom";
-import authSchemaValidation from "../../validation/auth.validation";
+import InputItem from "../../../components/form/InputItem";
+import { Link, useNavigate } from "react-router-dom";
+import authSchemaValidation from "../../../validation/auth.validation";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
+import { useEffect } from "react";
+import { useLoginUserMutation } from "../../../redux/api/authApi";
+import { toast } from "sonner";
+import { isRtqQueryError } from "../../../redux/api/baseApi";
+import { decodedToken } from "../../../utils/jwt";
+import { useAppDispatch } from "../../../redux/hooks";
+import { logInUser } from "../../../redux/features/auth/authSlice";
+import { TAuthUser } from "../../../types/auth";
 
 const SignIn = () => {
-   const onSubmit: SubmitHandler<FieldValues> = (formValues) => {
-      console.log(formValues);
+   const navigate = useNavigate();
+   const dispatch = useAppDispatch();
+
+   const [signInUser, { data, error, isLoading }] = useLoginUserMutation();
+
+   const onSubmit: SubmitHandler<FieldValues> = (formData) => {
+      try {
+         const modifyData = {
+            email: formData.email,
+            password: formData.password,
+         };
+
+         signInUser(modifyData);
+      } catch (error) {
+         toast.error("Something went wrong! try again");
+      }
    };
+
+   useEffect(() => {
+      console.log({ data, error });
+
+      if (data) {
+         toast.success(data.message);
+         const token = data?.data?.access_token;
+         const user = decodedToken(token) as TAuthUser;
+         dispatch(logInUser({ token, user }));
+         navigate("/");
+      }
+
+      if (isRtqQueryError(error)) {
+         toast.error(error.data.message);
+      }
+   }, [data, error, dispatch, navigate]);
 
    return (
       <Container
@@ -39,6 +77,7 @@ const SignIn = () => {
             <FormWrapper
                onSubmit={onSubmit}
                validationSchema={authSchemaValidation.signIn}
+               successSubmit={data?.success}
             >
                <Grid
                   container
@@ -69,6 +108,7 @@ const SignIn = () => {
                </Grid>
                <ForgotPassword />
                <Button
+                  disabled={isLoading}
                   type="submit"
                   size="large"
                   fullWidth

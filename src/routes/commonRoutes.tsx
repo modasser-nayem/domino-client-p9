@@ -1,7 +1,8 @@
 import { TRouteItem } from "../types/route";
-import SignIn from "../pages/SignIn/SignIn";
-import SignUp from "../pages/SignUp/SignUp";
 import HomePage from "../pages/Home/HomePage";
+import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
+import SignIn from "../pages/Auth/SignIn/SignIn";
+import SignUp from "../pages/Auth/SignUp/SignUp";
 
 export const commonRoutes: TRouteItem[] = [
    {
@@ -18,5 +19,10 @@ export const commonRoutes: TRouteItem[] = [
       name: "Sign Up",
       path: "/sign-up",
       element: <SignUp />,
+   },
+   {
+      name: "Reset Password",
+      path: "/reset-password",
+      element: <ResetPassword />,
    },
 ];

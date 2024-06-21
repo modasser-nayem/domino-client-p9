@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { TChildren } from "../types/global";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logOutUser } from "../redux/features/auth/authSlice";
 
 type ProtectRouteProps = {
@@ -10,11 +10,7 @@ type ProtectRouteProps = {
 const ProtectedRoute = ({ children, role }: ProtectRouteProps) => {
    const dispatch = useAppDispatch();
 
-   const user: { role: "admin" | "instructor" | "student" } = {
-      role: "student",
-   };
-
-   // const user = null;
+   const user = useAppSelector((state) => state.auth.user);
 
    if (!user) {
       return (
