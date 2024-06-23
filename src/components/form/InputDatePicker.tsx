@@ -2,6 +2,7 @@ import { Controller } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment, { Moment } from "moment";
 
 type TInputDatePickerProps = {
    label: string;
@@ -26,8 +27,10 @@ const InputDatePicker = ({
             <LocalizationProvider dateAdapter={AdapterMoment}>
                <DatePicker
                   {...field}
-                  value={value || null} // Ensure value is never undefined
-                  onChange={(date) => onChange(date)} // Adapt the onChange handler
+                  value={value ? moment(value) : null} // Convert value to Moment object
+                  onChange={(date: Moment | null) =>
+                     onChange(date ? date.toISOString() : null)
+                  } // Convert date to ISO string
                   slotProps={{
                      textField: {
                         label,

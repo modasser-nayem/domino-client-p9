@@ -1,15 +1,5 @@
-import {
-   BarChart,
-   Book,
-   Contrast,
-   Diamond,
-   Map,
-   ShoppingCart,
-   Support,
-} from "@mui/icons-material";
-import { Badge, Box, Stack, Typography } from "@mui/material";
-import { CalendarIcon } from "@mui/x-date-pickers";
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box, Stack, Typography } from "@mui/material";
 import {
    Sidebar,
    Menu,
@@ -19,6 +9,8 @@ import {
    MenuItemStyles,
 } from "react-pro-sidebar";
 import dominoLogo from "../../../assets/domino_logo.png";
+import { TSidebarMenuItem } from "../../../types/dashboard";
+import { Link } from "react-router-dom";
 
 const themes = {
    light: {
@@ -66,15 +58,6 @@ const hexToRgba = (hex: string, alpha: number) => {
    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export type MenuItem = {
-   label: string;
-   icon: React.ReactNode;
-   menus: {
-      path: string;
-      name: string;
-   }[];
-};
-
 type DashboardSidebarProps = {
    collapsed: boolean;
    setCollapsed: any;
@@ -83,6 +66,7 @@ type DashboardSidebarProps = {
    broken: boolean;
    setBroken: any;
    theme: "light" | "dark";
+   menuItems: TSidebarMenuItem[];
 };
 
 const DashboardSidebar = ({
@@ -91,6 +75,7 @@ const DashboardSidebar = ({
    setToggled,
    setBroken,
    theme,
+   menuItems,
 }: DashboardSidebarProps) => {
    const menuItemStyles: MenuItemStyles = {
       root: {
@@ -129,23 +114,6 @@ const DashboardSidebar = ({
       }),
    };
 
-   const menuItems: MenuItem[] = [
-      {
-         label: "Nayem",
-         icon: <Contrast />,
-         menus: [
-            {
-               path: "about",
-               name: "About",
-            },
-            {
-               path: "contact",
-               name: "Contact",
-            },
-         ],
-      },
-   ];
-
    return (
       <Sidebar
          collapsed={collapsed}
@@ -167,37 +135,43 @@ const DashboardSidebar = ({
             }}
          >
             {/* header */}
-            <Stack
-               direction="row"
-               alignItems="center"
-               mt={3}
-               mb={2.5}
-               pl={3}
+            <Link
+               style={{ textDecoration: "none", color: "inherit" }}
+               to="/"
             >
-               <img
-                  src={dominoLogo}
-                  alt="domino"
-                  style={{
-                     width: "28px",
-                     height: "28px",
-                     marginRight: ".3rem",
-                  }}
-               />
-               <Typography
-                  variant="h4"
-                  noWrap
-                  component="h2"
-                  sx={{
-                     mr: 2,
-                     fontFamily: "monospace",
-                     fontWeight: 700,
-                     letterSpacing: ".3rem",
-                     display: collapsed ? "none" : "block",
-                  }}
+               <Stack
+                  direction="row"
+                  alignItems="center"
+                  mt={3}
+                  mb={2.5}
+                  pl={3}
                >
-                  omino
-               </Typography>
-            </Stack>
+                  <img
+                     src={dominoLogo}
+                     alt="domino"
+                     style={{
+                        width: "28px",
+                        height: "28px",
+                        marginRight: ".3rem",
+                     }}
+                  />
+                  <Typography
+                     variant="h4"
+                     noWrap
+                     component="h2"
+                     sx={{
+                        mr: 2,
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".3rem",
+                        display: collapsed ? "none" : "block",
+                     }}
+                  >
+                     omino
+                  </Typography>
+               </Stack>
+            </Link>
+
             <div style={{ flex: 1, marginBottom: "32px" }}>
                {/* <div style={{ padding: "0 24px", marginBottom: "8px" }}>
                   <Typography
@@ -212,18 +186,50 @@ const DashboardSidebar = ({
                   </Typography>
                </div> */}
                <Menu menuItemStyles={menuItemStyles}>
-                  {menuItems.map((menu) => (
-                     <SubMenu
-                        label={menu.label}
-                        icon={menu.icon}
-                     >
-                        {menu.menus.map((submenu) => (
-                           <MenuItem href={submenu.path}>
-                              {submenu.name}
-                           </MenuItem>
-                        ))}
-                     </SubMenu>
-                  ))}
+                  {menuItems.map((menu, i) => {
+                     if (menu.path && !menu.menus) {
+                        return (
+                           <Link
+                              key={i}
+                              style={{
+                                 textDecoration: "none",
+                                 color: "inherit",
+                              }}
+                              to={menu.path}
+                           >
+                              <MenuItem
+                                 component="p"
+                                 icon={menu.icon}
+                              >
+                                 {menu.label}
+                              </MenuItem>
+                           </Link>
+                        );
+                     } else {
+                        return (
+                           <SubMenu
+                              key={i}
+                              label={menu.label}
+                              icon={menu.icon}
+                           >
+                              {menu?.menus?.map((submenu, i) => (
+                                 <Link
+                                    key={i}
+                                    style={{
+                                       textDecoration: "none",
+                                       color: "inherit",
+                                    }}
+                                    to={submenu.path}
+                                 >
+                                    <MenuItem component="p">
+                                       {submenu.name}
+                                    </MenuItem>
+                                 </Link>
+                              ))}
+                           </SubMenu>
+                        );
+                     }
+                  })}
                   {/* <SubMenu
                      label="Components"
                      icon={<Diamond />}

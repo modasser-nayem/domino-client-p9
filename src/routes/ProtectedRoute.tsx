@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logOutUser } from "../redux/features/auth/authSlice";
 
 type ProtectRouteProps = {
-   role: "admin" | "instructor" | "student";
+   role?: "admin" | "instructor" | "student";
 } & TChildren;
 
 const ProtectedRoute = ({ children, role }: ProtectRouteProps) => {
@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children, role }: ProtectRouteProps) => {
          />
       );
    }
-   if (user.role !== role) {
+   if (role && user.role !== role) {
       dispatch(logOutUser());
    }
 

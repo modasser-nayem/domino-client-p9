@@ -85,5 +85,61 @@ const resetPassword = z
       path: ["confirmPassword"],
    });
 
-const authSchemaValidation = { signUp, signIn, changePassword, resetPassword };
+const updateMyProfile = z.object({
+   user: z
+      .object({
+         name: z.string().optional(),
+         profileImg: z.string().url().optional(),
+         email: z.string().email().optional(),
+      })
+      .optional(),
+   designation: z.string().optional(),
+   about: z.string().optional(),
+   gender: z.enum(["male", "female"]).optional(),
+   dateOfBirth: z.string().datetime().optional(),
+   bloodGroup: z
+      .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+      .optional(),
+   contactNo: z.string().optional(),
+   // language: z.optional(
+   //    z.record(
+   //       z.string(),
+   //       z.enum(["Native", "Fluent", "Proficient", "Intermediate", "Basic"])
+   //    )
+   // ),
+   address: z
+      .object({
+         country: z.string(),
+         district: z.string(),
+         state: z.string(),
+      })
+      .optional(),
+   skills: z.array(z.string()).optional(),
+   education: z
+      .object({
+         institute: z.string(),
+         subject: z.string(),
+         startYear: z.string().datetime(),
+         passingYear: z.string().datetime(),
+         isComplete: z.boolean(),
+      })
+      .optional(),
+   socialLinks: z
+      .object({
+         facebook: z.string().url(),
+         twitter: z.string().url(),
+         linkedIn: z.string().url(),
+         youtube: z.string().url(),
+         website: z.string().url(),
+      })
+      .optional(),
+});
+
+const authSchemaValidation = {
+   signUp,
+   signIn,
+   changePassword,
+   resetPassword,
+   updateMyProfile,
+};
 export default authSchemaValidation;
