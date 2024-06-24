@@ -3,12 +3,12 @@ import CommonLayout from "../components/layout/CommonLayout";
 import { routesGenerator } from "../utils/routesGenerator";
 import { commonRoutes } from "./commonRoutes";
 import StudentLayout from "../components/layout/Student/StudentLayout";
-import { dashboardRoutes } from "./dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import InstructorLayout from "../components/layout/Instructor/InstructorLayout";
 import { instructorRoutes } from "./instructor";
 import AdminLayout from "../components/layout/Admin/AdminLayout";
 import { adminRoutes } from "./admin";
+import { studentRoutes } from "./student";
 
 const router = createBrowserRouter([
    {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
             <StudentLayout />
          </ProtectedRoute>
       ),
-      children: routesGenerator(dashboardRoutes),
+      children: routesGenerator(studentRoutes),
    },
    {
       path: "/instructor",

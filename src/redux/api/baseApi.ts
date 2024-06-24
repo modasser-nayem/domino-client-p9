@@ -50,7 +50,7 @@ export const baseApi = createApi({
    reducerPath: "baseApi",
    baseQuery: baseQueryChecking,
    endpoints: () => ({}),
-   tagTypes: ["users"],
+   tagTypes: ["users", "category", "subcategory", "courses"],
 });
 
 interface TServerErrorData {

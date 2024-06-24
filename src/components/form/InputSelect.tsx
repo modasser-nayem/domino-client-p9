@@ -6,14 +6,12 @@ import {
    Select,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
+import { TInputSelectOption } from "../../types/global";
 
 type TInputSelectProps = {
    label: string;
    name: string;
-   options: {
-      label: string;
-      value: string;
-   }[];
+   options: TInputSelectOption[];
    required?: boolean;
    readOnly?: boolean;
 };

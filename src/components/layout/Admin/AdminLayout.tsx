@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { TSidebarMenuItem } from "../../../types/dashboard";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
+import CategoryIcon from "@mui/icons-material/Category";
 
 type Theme = "light" | "dark";
 
@@ -20,6 +21,20 @@ const AdminLayout = () => {
          label: "Dashboard",
          icon: <DashboardIcon />,
          path: "/admin",
+      },
+      {
+         label: "Category",
+         icon: <CategoryIcon />,
+         menus: [
+            {
+               name: "Categories",
+               path: "categories",
+            },
+            {
+               name: "Subcategories",
+               path: "subcategories",
+            },
+         ],
       },
       {
          label: "User Management",

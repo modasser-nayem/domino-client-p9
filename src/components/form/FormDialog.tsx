@@ -3,7 +3,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { ReactNode, useEffect, useState } from "react";
-import { Box, Button, IconButton, SxProps, Typography } from "@mui/material";
+import { Box, Button, IconButton, SxProps } from "@mui/material";
 import FormWrapper from "./FormWrapper";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
@@ -11,12 +11,13 @@ import { Theme } from "@emotion/react";
 import { ZodType } from "zod";
 
 type TFormDialogProps = {
-   openTitle: string;
+   openTitle: string | ReactNode;
    children: ReactNode;
    titleText: string;
    submitBtnText?: string;
    submitBtnLoading?: boolean;
    titleSx?: SxProps<Theme>;
+   openTitleSx?: SxProps<Theme>;
    onSubmit: SubmitHandler<FieldValues>;
    successSubmit?: boolean;
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +31,7 @@ const FormDialog = ({
    children,
    titleText,
    titleSx,
+   openTitleSx,
    submitBtnText,
    submitBtnLoading,
    onSubmit,
@@ -66,17 +68,15 @@ const FormDialog = ({
 
    return (
       <Box>
-         <Typography
+         <Box
             onClick={handleClickOpen}
             fontWeight={500}
             textAlign="right"
             color="primary.main"
-            pt={2}
-            pb={3}
-            sx={{ cursor: "pointer" }}
+            sx={{ ...openTitleSx, cursor: "pointer" }}
          >
             {openTitle}
-         </Typography>
+         </Box>
          <Dialog
             open={open}
             onClose={handleClose}

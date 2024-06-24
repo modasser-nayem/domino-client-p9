@@ -33,7 +33,7 @@ const CustomTable: React.FC<CustomTableProps> = ({ columns, data, align }) => {
                <TableRow>
                   {columns.map((column) => (
                      <TableCell
-                        sx={{ fontWeight: 600 }}
+                        sx={{ fontWeight: 600, fontSize: 18 }}
                         align={align}
                         key={column.id}
                      >

@@ -1,5 +1,7 @@
 import AllInstructorsForAdmin from "../pages/Admin/AllInstructorsForAdmin/AllInstructorsForAdmin";
 import AllUsers from "../pages/Admin/AllUsers/AllUsers";
+import Categories from "../pages/CategoryManagement/Category/Categories";
+import Subcategories from "../pages/CategoryManagement/Subcategory/Subcategories";
 import { TRouteItem } from "../types/route";
 
 export const adminRoutes: TRouteItem[] = [
@@ -24,8 +26,18 @@ export const adminRoutes: TRouteItem[] = [
       ],
    },
    {
-      name: "Courses",
-      path: "courses",
-      element: <h1>Courses</h1>,
+      name: "Category",
+      children: [
+         {
+            name: "Categories",
+            path: "categories",
+            element: <Categories />,
+         },
+         {
+            name: "Subcategories",
+            path: "subcategories",
+            element: <Subcategories />,
+         },
+      ],
    },
 ];
