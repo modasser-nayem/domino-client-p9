@@ -12,6 +12,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import moment from "moment";
+import Loading from "../../../components/shared/Loading/Loading";
 
 const UserDetails = () => {
    const params = useParams();
@@ -24,7 +25,7 @@ const UserDetails = () => {
       <Container sx={{ my: 10 }}>
          <>
             {!profile ? (
-               <Typography>Loading...</Typography>
+               <Loading />
             ) : (
                <Box>
                   <Box

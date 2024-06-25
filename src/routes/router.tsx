@@ -9,8 +9,12 @@ import { instructorRoutes } from "./instructor";
 import AdminLayout from "../components/layout/Admin/AdminLayout";
 import { adminRoutes } from "./admin";
 import { studentRoutes } from "./student";
+import NotFoundPage from "../components/shared/NotFoundPage/NotFoundPage";
 
 const router = createBrowserRouter([
+   {
+      errorElement: <NotFoundPage />,
+   },
    {
       path: "/",
       element: <CommonLayout />,

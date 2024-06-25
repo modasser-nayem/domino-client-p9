@@ -8,6 +8,7 @@ import Profile from "../pages/User/Profile/Profile";
 import ProtectedRoute from "./ProtectedRoute";
 import OnLoginProtected from "./OnLoginProtected";
 import UserDetails from "../pages/User/UserDetails/UserDetails";
+import CourseDetails from "../pages/CourseManagement/Course/CourseDetails";
 
 export const commonRoutes: TRouteItem[] = [
    {
@@ -64,5 +65,10 @@ export const commonRoutes: TRouteItem[] = [
       name: "User Details",
       path: "user-details/:id",
       element: <UserDetails />,
+   },
+   {
+      name: "Course Details",
+      path: "course-details/:id",
+      element: <CourseDetails />,
    },
 ];

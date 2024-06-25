@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import { Box, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useGetSingleUserQuery } from "../../../redux/api/userApi";
+import Loading from "../../shared/Loading/Loading";
 
 const DetailsModel = ({ userId }: { userId: string }) => {
    const [open, setOpen] = React.useState(false);
@@ -50,7 +51,7 @@ const DetailsModel = ({ userId }: { userId: string }) => {
                      <Typography>{data.data._id}</Typography>
                   </Box>
                ) : (
-                  <Typography>Loading...</Typography>
+                  <Loading />
                )}
             </DialogContent>
             <DialogActions>

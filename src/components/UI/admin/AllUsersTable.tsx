@@ -12,6 +12,7 @@ import {
 import { toast } from "sonner";
 import { isRtqQueryError } from "../../../redux/api/baseApi";
 import { Link } from "react-router-dom";
+import Loading from "../../shared/Loading/Loading";
 
 const AllUsersTable = () => {
    const { data } = useGetAllUsersQuery(undefined);
@@ -227,7 +228,7 @@ const AllUsersTable = () => {
 
    return (
       <div>
-         <h1>Custom Table Example</h1>
+         <h2>All Users</h2>
          {tableData ? (
             <CustomTable
                columns={columns}
@@ -235,7 +236,7 @@ const AllUsersTable = () => {
                align="center"
             />
          ) : (
-            <Typography>Loading...</Typography>
+            <Loading />
          )}
       </div>
    );

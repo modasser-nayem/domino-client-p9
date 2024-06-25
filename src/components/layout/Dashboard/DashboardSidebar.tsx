@@ -37,7 +37,7 @@ const themes = {
       },
       menu: {
          menuContent: "#082440",
-         icon: "#59d0ff",
+         icon: "wheat",
          hover: {
             backgroundColor: "#00458b",
             color: "#b6c8d9",
@@ -200,6 +200,7 @@ const DashboardSidebar = ({
                               <MenuItem
                                  component="p"
                                  icon={menu.icon}
+                                 style={{ fontSize: "16px" }}
                               >
                                  {menu.label}
                               </MenuItem>
@@ -211,6 +212,7 @@ const DashboardSidebar = ({
                               key={i}
                               label={menu.label}
                               icon={menu.icon}
+                              style={{ fontSize: "16px" }}
                            >
                               {menu?.menus?.map((submenu, i) => (
                                  <Link
@@ -221,7 +223,10 @@ const DashboardSidebar = ({
                                     }}
                                     to={submenu.path}
                                  >
-                                    <MenuItem component="p">
+                                    <MenuItem
+                                       style={{ fontSize: "16px" }}
+                                       component="p"
+                                    >
                                        {submenu.name}
                                     </MenuItem>
                                  </Link>
