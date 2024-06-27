@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Search from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton, InputBase, Stack } from "@mui/material";

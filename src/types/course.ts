@@ -1,7 +1,23 @@
-export type TCourseLevel = "beginner" | "intermediate" | "advanced";
-export type TCoursePriceType = "free" | "paid";
+import { z } from "zod";
+import courseSchemaValidation from "../validation/course.validation";
+import {
+   COURSE_LEVEL,
+   COURSE_PRICE_TYPE,
+   COURSE_STATUS,
+} from "../constant/course";
 
-export type TCourseStatus = "upcoming" | "ongoing" | "close";
+export type TCourseLevel = keyof typeof COURSE_LEVEL;
+export type TCoursePriceType = keyof typeof COURSE_PRICE_TYPE;
+
+export type TCourseStatus = keyof typeof COURSE_STATUS;
+
+export type TCreateCourse = z.infer<typeof courseSchemaValidation.createCourse>;
+
+export type TUpdateCourse = z.infer<typeof courseSchemaValidation.updateCourse>;
+
+export type TUpdateCourseStatus = z.infer<
+   typeof courseSchemaValidation.updateCourseStatus
+>;
 
 export type TGetAllCourse = {
    _id: string;

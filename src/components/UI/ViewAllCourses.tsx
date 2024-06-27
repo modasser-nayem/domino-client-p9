@@ -2,19 +2,36 @@ import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import { useGetAllCourseQuery } from "../../redux/api/courseApi";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Loading from "../shared/Loading/Loading";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
+import { COURSE_STATUS } from "../../constant/course";
 
 const ViewAllCourses = () => {
+   const navigate = useNavigate();
+
+   const user = useAppSelector((state) => state.auth.user);
+
    const { data, isLoading } = useGetAllCourseQuery(undefined);
 
    const courses = data?.data;
+
+   const handleByNowClick = () => {
+      if (!user) {
+         navigate("/sign-up");
+      }
+   };
 
    return (
       <>
          {isLoading ? (
             <Loading />
          ) : courses && courses.length > 0 ? (
-            <Box component="div">
+            <Box
+               component="div"
+               display="flex"
+               flexWrap="wrap"
+               gap={4}
+            >
                {courses.map((course) => (
                   <Box
                      key={course._id}
@@ -30,7 +47,7 @@ const ViewAllCourses = () => {
                            sx={{
                               position: "relative",
                               width: "100%",
-                              height: "100%",
+                              height: { xs: 180, sm: 220 },
                               maxHeight: 220,
                               overflow: "hidden",
                               ":hover .overlay": {
@@ -118,15 +135,36 @@ const ViewAllCourses = () => {
                                  {course.language}
                               </Typography>
                            </Typography>
-                           <Typography fontWeight={600}>
-                              Level:{" "}
+                           <Stack
+                              direction="row"
+                              alignItems="center"
+                              justifyContent="space-between"
+                           >
+                              <Typography fontWeight={600}>
+                                 Level:{" "}
+                                 <Chip
+                                    size="small"
+                                    label={course.level}
+                                    color="info"
+                                    component="span"
+                                 />
+                              </Typography>
                               <Chip
                                  size="small"
-                                 label={course.level}
-                                 color="info"
-                                 component="span"
+                                 label={course.status}
+                                 sx={{
+                                    fontWeight: 500,
+                                    textTransform: "capitalize",
+                                 }}
+                                 color={
+                                    course.status === COURSE_STATUS.ongoing
+                                       ? "success"
+                                       : course.status === COURSE_STATUS.close
+                                       ? "error"
+                                       : "default"
+                                 }
                               />
-                           </Typography>
+                           </Stack>
                         </Stack>
                         <Stack
                            direction="row"
@@ -137,10 +175,34 @@ const ViewAllCourses = () => {
                               variant="h6"
                               component="h3"
                               fontWeight={700}
+                              sx={{ textTransform: "capitalize" }}
                            >
-                              {course.price}TK
+                              {course.priceType === "free" ? (
+                                 <>
+                                    {course.priceType}{" "}
+                                    <Typography
+                                       component="span"
+                                       sx={{
+                                          textDecoration: "line-through",
+                                       }}
+                                    >
+                                       {course.price} TK
+                                    </Typography>
+                                 </>
+                              ) : (
+                                 `${course.price} TK`
+                              )}
                            </Typography>
-                           <Button size="small">Buy Now</Button>
+                           <Button
+                              size="small"
+                              sx={{
+                                 fontWeight: 600,
+                                 textTransform: "capitalize",
+                              }}
+                              onClick={handleByNowClick}
+                           >
+                              Buy Now
+                           </Button>
                         </Stack>
                      </Box>
                   </Box>

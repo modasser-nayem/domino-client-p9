@@ -56,7 +56,7 @@ const AdminLayout = () => {
       <div
          style={{
             display: "flex",
-            height: "100%",
+            height: "100vh",
          }}
       >
          <DashboardSidebar
@@ -71,7 +71,10 @@ const AdminLayout = () => {
          />
 
          {/* main */}
-         <Box width="100%">
+         <Box
+            width="100%"
+            overflow="scroll"
+         >
             <DashboardTopbar
                collapsed={collapsed}
                setCollapsed={setCollapsed}

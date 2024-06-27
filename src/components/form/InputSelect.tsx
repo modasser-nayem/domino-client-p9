@@ -4,9 +4,11 @@ import {
    InputLabel,
    MenuItem,
    Select,
+   SxProps,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 import { TInputSelectOption } from "../../types/global";
+import { Theme } from "@emotion/react";
 
 type TInputSelectProps = {
    label: string;
@@ -14,6 +16,8 @@ type TInputSelectProps = {
    options: TInputSelectOption[];
    required?: boolean;
    readOnly?: boolean;
+   labelSx?: SxProps<Theme>;
+   sx?: SxProps<Theme>;
 };
 
 const InputSelect = ({
@@ -22,6 +26,8 @@ const InputSelect = ({
    options,
    required,
    readOnly,
+   labelSx,
+   sx,
 }: TInputSelectProps) => {
    return (
       <Controller
@@ -31,7 +37,12 @@ const InputSelect = ({
                fullWidth
                error={!!error}
             >
-               <InputLabel id="select-label">{label}</InputLabel>
+               <InputLabel
+                  sx={{ ...labelSx, textTransform: "capitalize" }}
+                  id="select-label"
+               >
+                  {label}
+               </InputLabel>
                <Select
                   {...field}
                   labelId="select-label"
@@ -40,9 +51,13 @@ const InputSelect = ({
                   label={label}
                   required={required}
                   readOnly={readOnly}
+                  sx={{ ...sx, textTransform: "capitalize" }}
                >
                   {options.map((option) => (
                      <MenuItem
+                        sx={{
+                           textTransform: "capitalize",
+                        }}
                         key={option.value}
                         value={option.value}
                      >

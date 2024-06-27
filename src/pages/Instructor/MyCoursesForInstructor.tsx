@@ -4,6 +4,9 @@ import Loading from "../../components/shared/Loading/Loading";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/EditNoteTwoTone";
+import { COURSE_STATUS } from "../../constant/course";
+import DeleteCourse from "../../components/UI/Course/DeleteCourse";
 
 const MyCoursesForInstructor = () => {
    const { data, isLoading } = useGetMyCoursesQuery(undefined);
@@ -34,8 +37,11 @@ const MyCoursesForInstructor = () => {
             <Loading />
          ) : courses && courses.length > 0 ? (
             <Box
-               component="div"
                mt={5}
+               component="div"
+               display="flex"
+               flexWrap="wrap"
+               gap={4}
             >
                {courses.map((course) => (
                   <Box
@@ -44,15 +50,12 @@ const MyCoursesForInstructor = () => {
                      width={300}
                      boxShadow={15}
                   >
-                     <Link
-                        to={`/course-details/${course._id}`}
-                        style={{ textDecoration: "none" }}
-                     >
+                     <Link to={`/course-details/${course._id}`}>
                         <Box
                            sx={{
                               position: "relative",
                               width: "100%",
-                              height: "100%",
+                              height: { xs: 180, sm: 220 },
                               maxHeight: 220,
                               overflow: "hidden",
                               ":hover .overlay": {
@@ -140,16 +143,38 @@ const MyCoursesForInstructor = () => {
                                  {course.language}
                               </Typography>
                            </Typography>
-                           <Typography fontWeight={600}>
-                              Level:{" "}
+                           <Stack
+                              direction="row"
+                              alignItems="center"
+                              justifyContent="space-between"
+                           >
+                              <Typography fontWeight={600}>
+                                 Level:{" "}
+                                 <Chip
+                                    size="small"
+                                    label={course.level}
+                                    color="info"
+                                    component="span"
+                                 />
+                              </Typography>
                               <Chip
-                                 size="small"
-                                 label={course.level}
-                                 color="info"
-                                 component="span"
+                                 size="medium"
+                                 label={course.status}
+                                 sx={{
+                                    fontWeight: 500,
+                                    textTransform: "capitalize",
+                                 }}
+                                 color={
+                                    course.status === COURSE_STATUS.ongoing
+                                       ? "success"
+                                       : course.status === COURSE_STATUS.close
+                                       ? "error"
+                                       : "default"
+                                 }
                               />
-                           </Typography>
+                           </Stack>
                         </Stack>
+
                         <Stack
                            direction="row"
                            alignItems="center"
@@ -162,7 +187,20 @@ const MyCoursesForInstructor = () => {
                            >
                               {course.price}TK
                            </Typography>
-                           <Button size="small">Buy Now</Button>
+                           <DeleteCourse courseId={course._id} />
+                           <Link to={`/instructor/update-course/${course._id}`}>
+                              <Button
+                                 startIcon={<EditIcon />}
+                                 size="medium"
+                                 color="warning"
+                                 sx={{
+                                    fontWeight: 600,
+                                    textTransform: "capitalize",
+                                 }}
+                              >
+                                 Edit
+                              </Button>
+                           </Link>
                         </Stack>
                      </Box>
                   </Box>

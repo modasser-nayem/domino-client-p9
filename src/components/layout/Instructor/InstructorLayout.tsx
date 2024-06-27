@@ -26,12 +26,12 @@ const InstructorLayout = () => {
          icon: <SchoolIcon />,
          menus: [
             {
-               name: "Courses",
-               path: "courses",
-            },
-            {
                name: "My Courses",
                path: "my-courses",
+            },
+            {
+               name: "Courses",
+               path: "courses",
             },
             {
                name: "Add New Course",
@@ -45,7 +45,7 @@ const InstructorLayout = () => {
       <Box
          style={{
             display: "flex",
-            height: "100%",
+            height: "100vh",
          }}
       >
          <DashboardSidebar
@@ -60,7 +60,10 @@ const InstructorLayout = () => {
          />
 
          {/* main */}
-         <Box width="100%">
+         <Box
+            width="100%"
+            overflow="scroll"
+         >
             <DashboardTopbar
                collapsed={collapsed}
                setCollapsed={setCollapsed}

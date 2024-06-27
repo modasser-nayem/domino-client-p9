@@ -17,14 +17,16 @@ const CourseDetailsTabs = ({ course }: { course: TGetSingleCourse }) => {
    const details = [
       {
          label: "Features",
-         value: [
-            "HTML5, CSS3",
-            "Building A Professional Website",
-            "Git, GitHub, Hosting, Bootstrap 5, JavaScript, ES6, Interactive Website, API JSON, Server, Data Load",
-            "Dynamic Website",
-            "Building a Website Using API, ReactJS, React Authentication (Firebase), NodeJS, MongoDB",
-            "Full Stack Website (E-commerce).",
-         ],
+         value: course.features.length
+            ? course.features
+            : [
+                 "HTML5, CSS3",
+                 "Building A Professional Website",
+                 "Git, GitHub, Hosting, Bootstrap 5, JavaScript, ES6, Interactive Website, API JSON, Server, Data Load",
+                 "Dynamic Website",
+                 "Building a Website Using API, ReactJS, React Authentication (Firebase), NodeJS, MongoDB",
+                 "Full Stack Website (E-commerce).",
+              ],
       },
       { label: "Enrolled", value: 58 }, // course.enrolled
       { label: "Lectures", value: 35 }, // course.lectures
