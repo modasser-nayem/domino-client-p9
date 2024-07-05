@@ -11,6 +11,7 @@ import {
 import dominoLogo from "../../../assets/domino_logo.png";
 import { TSidebarMenuItem } from "../../../types/dashboard";
 import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
 const themes = {
    light: {
@@ -186,6 +187,21 @@ const DashboardSidebar = ({
                   </Typography>
                </div> */}
                <Menu menuItemStyles={menuItemStyles}>
+                  <Link
+                     style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                     }}
+                     to="/"
+                  >
+                     <MenuItem
+                        component="p"
+                        icon={<HomeIcon />}
+                        style={{ fontSize: "16px" }}
+                     >
+                        Home
+                     </MenuItem>
+                  </Link>
                   {menuItems.map((menu, i) => {
                      if (menu.path && !menu.menus) {
                         return (

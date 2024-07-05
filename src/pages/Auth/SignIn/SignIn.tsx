@@ -1,4 +1,14 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import {
+   Accordion,
+   AccordionDetails,
+   AccordionSummary,
+   Box,
+   Button,
+   Container,
+   Grid,
+   Stack,
+   Typography,
+} from "@mui/material";
 import FormWrapper from "../../../components/form/FormWrapper";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import InputItem from "../../../components/form/InputItem";
@@ -13,6 +23,7 @@ import { decodedToken } from "../../../utils/jwt";
 import { useAppDispatch } from "../../../redux/hooks";
 import { logInUser } from "../../../redux/features/auth/authSlice";
 import { TAuthUser } from "../../../types/auth";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const SignIn = () => {
    const navigate = useNavigate();
@@ -34,8 +45,6 @@ const SignIn = () => {
    };
 
    useEffect(() => {
-      console.log({ data, error });
-
       if (data) {
          toast.success(data.message);
          const token = data?.data?.access_token;
@@ -65,6 +74,53 @@ const SignIn = () => {
                maxWidth: 600,
             }}
          >
+            <Accordion
+               sx={{
+                  border: "none",
+                  width: "fit-content",
+                  boxShadow: "none",
+               }}
+            >
+               <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+               >
+                  see credential
+               </AccordionSummary>
+               <AccordionDetails>
+                  <Box
+                     display="flex"
+                     flexDirection="column"
+                     gap={2}
+                  >
+                     <Stack>
+                        <Typography fontSize={14}>
+                           Student Email: student@gmail.com
+                        </Typography>
+                        <Typography fontSize={14}>
+                           Student Password: 123456
+                        </Typography>
+                     </Stack>
+                     <Stack>
+                        <Typography fontSize={14}>
+                           instructor Email: instructor@gmail.com
+                        </Typography>
+                        <Typography fontSize={14}>
+                           instructor Password: 123456
+                        </Typography>
+                     </Stack>
+                     <Stack>
+                        <Typography fontSize={14}>
+                           admin Email: admin@gmail.com
+                        </Typography>
+                        <Typography fontSize={14}>
+                           admin Password: 123456
+                        </Typography>
+                     </Stack>
+                  </Box>
+               </AccordionDetails>
+            </Accordion>
             <Typography
                variant="h5"
                fontWeight={700}

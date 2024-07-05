@@ -184,23 +184,25 @@ const Profile = () => {
                                     : "Not Provided"}
                               </Typography>
                            </Stack>
-                           <Stack
-                              direction="row"
-                              alignContent="center"
-                              color="primary.main"
-                              gap={1}
-                           >
-                              <Box component="span">
-                                 <LocationOnIcon fontSize="small" />
-                              </Box>
-                              <Typography
-                                 variant="body1"
-                                 component="span"
+                           {profile?.address && (
+                              <Stack
+                                 direction="row"
+                                 alignContent="center"
+                                 color="primary.main"
+                                 gap={1}
                               >
-                                 {profile?.address?.district},{" "}
-                                 {profile?.address?.country}
-                              </Typography>
-                           </Stack>
+                                 <Box component="span">
+                                    <LocationOnIcon fontSize="small" />
+                                 </Box>
+                                 <Typography
+                                    variant="body1"
+                                    component="span"
+                                 >
+                                    {profile?.address?.district},{" "}
+                                    {profile?.address?.country}
+                                 </Typography>
+                              </Stack>
+                           )}
                         </Box>
                      </Stack>
                      <Stack flex={1}>

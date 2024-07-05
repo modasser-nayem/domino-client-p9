@@ -27,8 +27,6 @@ const ChangePassword = () => {
    };
 
    useEffect(() => {
-      console.log({ data, error });
-
       if (data) {
          toast.success(data.message);
       }

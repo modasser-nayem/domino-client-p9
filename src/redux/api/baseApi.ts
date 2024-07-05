@@ -11,8 +11,10 @@ import { RootState } from "../store";
 import { decodedToken } from "../../utils/jwt";
 import { logOutUser } from "../features/auth/authSlice";
 
+const baseUrl = "https://domino-server.vercel.app/api/v1/";
+// const baseUrl = "http://localhost:5000/api/v1";
 const baseQuery = fetchBaseQuery({
-   baseUrl: "http://localhost:5000/api/v1",
+   baseUrl: baseUrl,
    prepareHeaders: (headers, { getState }) => {
       // get token in state
       const token = (getState() as RootState).auth.token;

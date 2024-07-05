@@ -8,7 +8,8 @@ import {
    TUpdateCategory,
    TUpdateSubcategory,
 } from "../../types/categories";
-import { TRtqQueryResponse } from "../../types/redux";
+import { TQueryParams, TRtqQueryResponse } from "../../types/redux";
+import { generateQueryParams } from "../../utils/rtqApi";
 import { baseApi } from "./baseApi";
 
 const categoriesApi = baseApi.injectEndpoints({
@@ -30,10 +31,15 @@ const categoriesApi = baseApi.injectEndpoints({
          invalidatesTags: ["category"],
       }),
       getAllCategory: build.query<TRtqQueryResponse<TGetAllCategory>, any>({
-         query: () => ({
-            url: "/category",
-            method: API_METHOD.GET,
-         }),
+         query: (arg: { query?: TQueryParams[] }) => {
+            const params = generateQueryParams(arg?.query);
+
+            return {
+               url: "/category",
+               method: API_METHOD.GET,
+               params: params,
+            };
+         },
          providesTags: ["category"],
       }),
       deleteCategory: build.mutation({

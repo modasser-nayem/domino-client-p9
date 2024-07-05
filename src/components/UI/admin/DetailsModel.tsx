@@ -26,8 +26,6 @@ const DetailsModel = ({ userId }: { userId: string }) => {
 
    const { data } = useGetSingleUserQuery({ id: userId });
 
-   console.log(data);
-
    return (
       <React.Fragment>
          <Button

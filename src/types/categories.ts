@@ -22,6 +22,12 @@ export type TGetAllCategory = {
    name: string;
    image?: string;
    createdAt: string;
+   subcategories?: {
+      _id: string;
+      name: string;
+      image?: string;
+      createdAt: string;
+   }[];
 }[];
 
 export type TGetAllSubcategory = {

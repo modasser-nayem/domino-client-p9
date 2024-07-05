@@ -30,6 +30,7 @@ const ViewAllCourses = () => {
                component="div"
                display="flex"
                flexWrap="wrap"
+               justifyContent="center"
                gap={4}
             >
                {courses.map((course) => (
